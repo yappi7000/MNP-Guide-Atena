@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNP基礎知識ガイド 2026年版</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07080f;
+    --surface: #0f1019;
+    --surface2: #181924;
+    --surface3: #1f2030;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.11);
+    --text: #dde0f0;
+    --muted: #656880;
+    --muted2: #8b8fa8;
+    --accent: #4f8ef7;
+    --accent2: #7eb3ff;
+    --green: #3dd68c;
+    --green2: #6fedb0;
+    --amber: #f5a623;
+    --red: #f25f5c;
+    --purple: #a78bfa;
+    --teal: #2dd4bf;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 80px 24px 64px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(79,142,247,0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 90%, rgba(61,214,140,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    background: rgba(79,142,247,0.08);
+    border: 0.5px solid rgba(79,142,247,0.25);
+    border-radius: 100px;
+    padding: 5px 16px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(38px, 9vw, 72px);
+    letter-spacing: -0.02em;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent2);
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--muted2);
+    max-width: 480px;
+    margin: 0 auto 36px;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+  .stat-pill {
+    background: var(--surface2);
+    border: 0.5px solid var(--border2);
+    border-radius: 100px;
+    padding: 7px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .stat-pill span { color: var(--green); }
+
+  /* ── NAV ── */
+  .toc {
+    max-width: 860px;
+    margin: 0 auto 0;
+    padding: 0 20px;
+  }
+  .toc-inner {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 6px;
+    animation: fadeUp 0.5s 0.35s ease both;
+  }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--muted2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none;
+  }
+  .toc-item:hover { background: var(--surface2); color: var(--text); }
+  .toc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    background: rgba(79,142,247,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 56px; }
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(79,142,247,0.1);
+    border: 0.5px solid rgba(79,142,247,0.2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+  }
+  .section-desc {
+    font-size: 13px;
+    color: var(--muted2);
+    margin-top: 4px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .card:hover { border-color: var(--border2); background: var(--surface2); }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-body {
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.75;
+  }
+  .card-body strong { color: var(--text); font-weight: 500; }
+  .card-body .hi { color: var(--green); font-weight: 500; }
+  .card-body .warn { color: var(--amber); font-weight: 500; }
+  .card-body .bad { color: var(--red); font-weight: 500; }
+
+  /* ── ICON DOT ── */
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-green { background: var(--green); }
+  .dot-blue  { background: var(--accent); }
+  .dot-amber { background: var(--amber); }
+  .dot-red   { background: var(--red); }
+  .dot-purple{ background: var(--purple); }
+  .dot-teal  { background: var(--teal); }
+
+  /* ── STEP LIST ── */
+  .steps { display: flex; flex-direction: column; gap: 10px; }
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .step-num {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: rgba(79,142,247,0.1);
+    border: 0.5px solid rgba(79,142,247,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent2);
+    flex-shrink: 0;
+  }
+  .step-content { padding-top: 6px; }
+  .step-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 5px;
+  }
+  .step-body { font-size: 13px; color: var(--muted2); line-height: 1.7; }
+  .step-body strong { color: var(--text); font-weight: 500; }
+
+  /* ── 2-COL GRID ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* ── TABLE ── */
+  .tbl-wrap { overflow-x: auto; border-radius: 12px; border: 0.5px solid var(--border2); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead tr {
+    background: var(--surface2);
+  }
+  th {
+    padding: 11px 14px;
+    text-align: left;
+    font-weight: 500;
+    color: var(--muted2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    border-bottom: 0.5px solid var(--border2);
+  }
+  td {
+    padding: 11px 14px;
+    color: var(--text);
+    border-bottom: 0.5px solid var(--border);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .td-green { color: var(--green); font-weight: 500; }
+  .td-amber { color: var(--amber); font-weight: 500; }
+  .td-red   { color: var(--red);   font-weight: 500; }
+  .td-blue  { color: var(--accent2); font-weight: 500; }
+  .td-mono  { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+  /* ── ALERT / INFO BOX ── */
+  .alert {
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.7;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .alert-info {
+    background: rgba(79,142,247,0.07);
+    border: 0.5px solid rgba(79,142,247,0.2);
+    color: #a0bef8;
+  }
+  .alert-warn {
+    background: rgba(245,166,35,0.07);
+    border: 0.5px solid rgba(245,166,35,0.2);
+    color: #f5c878;
+  }
+  .alert-danger {
+    background: rgba(242,95,92,0.07);
+    border: 0.5px solid rgba(242,95,92,0.2);
+    color: #f89a98;
+  }
+  .alert-success {
+    background: rgba(61,214,140,0.07);
+    border: 0.5px solid rgba(61,214,140,0.2);
+    color: #7eedb8;
+  }
+  .alert strong { font-weight: 500; filter: brightness(1.3); }
+
+  /* ── TAG / BADGE ── */
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .badge-green  { background: rgba(61,214,140,0.12);  color: var(--green2);  border: 0.5px solid rgba(61,214,140,0.25); }
+  .badge-amber  { background: rgba(245,166,35,0.12);  color: var(--amber);   border: 0.5px solid rgba(245,166,35,0.25); }
+  .badge-red    { background: rgba(242,95,92,0.12);   color: var(--red);     border: 0.5px solid rgba(242,95,92,0.25); }
+  .badge-blue   { background: rgba(79,142,247,0.12);  color: var(--accent2); border: 0.5px solid rgba(79,142,247,0.25); }
+  .badge-purple { background: rgba(167,139,250,0.12); color: var(--purple);  border: 0.5px solid rgba(167,139,250,0.25); }
+
+  /* ── DIVIDER ── */
+  .divider { height: 0.5px; background: linear-gradient(90deg, transparent, var(--border2) 30%, var(--border2) 70%, transparent); margin: 40px 0; }
+
+  /* ── CHECK LIST ── */
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.6;
+    transition: border-color 0.15s;
+  }
+  .check-item:hover { border-color: var(--border2); }
+  .check-icon { flex-shrink: 0; margin-top: 1px; font-size: 14px; }
+  .check-item strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 2px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 24px 20px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIM ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section { animation: fadeUp 0.5s ease both; }
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.15s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.25s; }
+  .section:nth-child(5) { animation-delay: 0.3s; }
+  .section:nth-child(6) { animation-delay: 0.35s; }
+  .section:nth-child(7) { animation-delay: 0.4s; }
+  .section:nth-child(8) { animation-delay: 0.45s; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">MNP KNOWLEDGE BASE — 2026</div>
+  <h1>MNP<br><em>基礎知識</em>ガイド</h1>
+  <p class="hero-sub">キャリア乗り換え（MNP）の仕組み・ルール・注意点を体系的に整理したリファレンス</p>
+  <div class="hero-stats">
+    <div class="stat-pill">主要キャリア <span>5社</span> 対応</div>
+    <div class="stat-pill">維持期間ルール <span>完全解説</span></div>
+    <div class="stat-pill">2026年最新情報</div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-inner">
+    <a href="#s01" class="toc-item"><span class="toc-num">01</span>MNPとは</a>
+    <a href="#s02" class="toc-item"><span class="toc-num">02</span>収益の仕組み2種類</a>
+    <a href="#s03" class="toc-item"><span class="toc-num">03</span>始める前の準備</a>
+    <a href="#s04" class="toc-item"><span class="toc-num">04</span>SIM選びの基準</a>
+    <a href="#s05" class="toc-item"><span class="toc-num">05</span>キャリア別ルール</a>
+    <a href="#s06" class="toc-item"><span class="toc-num">06</span>端末売却の注意点</a>
+    <a href="#s07" class="toc-item"><span class="toc-num">07</span>契約後の管理作業</a>
+    <a href="#s08" class="toc-item"><span class="toc-num">08</span>維持費の計算方法</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 01 MNPとは -->
+  <div class="section" id="s01">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <div>
+        <div class="section-title">MNPとは何か</div>
+        <div class="section-desc">Mobile Number Portability — 電話番号を変えずにキャリアを乗り換える制度</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <span class="alert-icon">ℹ</span>
+      <div>MNP（モバイルナンバーポータビリティ）とは、<strong>今使っている電話番号をそのまま維持しながら別のキャリアへ乗り換えができる制度</strong>です。キャリア間の競争が激化しており、各社は他社からの乗り換えに対して大きなキャッシュバックや端末値引きを提供しています。</div>
+    </div>
+
+    <div class="grid2" style="margin-top:10px;">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>契約の種類</div>
+        <div class="card-body">
+          <strong>新規契約</strong>：そのキャリアで新しく電話番号を発行する<br><br>
+          <strong>機種変更</strong>：同じキャリアのまま端末だけ変える<br><br>
+          <strong class="hi">MNP乗り換え</strong>：他社から番号を持ち込む → <span class="hi">キャリアにとって最も価値が高い</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>キャリアがMNPを重視する理由</div>
+        <div class="card-body">
+          MNPは競合他社の顧客を1人減らして自社を1人増やせる唯一の手段。シェア率を最重要指標とする各キャリアにとって、MNP獲得コストを惜しまない構造になっている。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 収益の仕組み -->
+  <div class="section" id="s02">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <div>
+        <div class="section-title">収益の仕組み — 2つのパターン</div>
+        <div class="section-desc">キャッシュバック型と端末転売型</div>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">A</div>
+        <div class="step-content">
+          <div class="step-title">キャッシュバック型</div>
+          <div class="step-body">
+            乗り換え契約をするだけで、<strong>現金・ポイント・商品券などが還元</strong>される仕組み。端末の購入は伴わず、純粋に回線契約への報酬として受け取る形。<br>
+            例：1回線のYモバイル乗り換えで現金5万円前後が還元されるケースがある（店舗・時期によって異なる）。
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">B</div>
+        <div class="step-content">
+          <div class="step-title">端末転売型（スマホ物販）</div>
+          <div class="step-body">
+            MNP乗り換え時に適用される<strong>端末の大幅割引（1円〜数千円）</strong>を活用し、入手した端末を買取業者に売却することで利益を得る方法。<br>
+            売上 ＝ 端末売却額 ／ 経費 ＝ 回線維持費（半年〜8ヶ月分の月額料金）<br>
+            <strong>端末はすぐ売却できるが、SIMカードは維持期間中保持が必要。</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-warn" style="margin-top:12px;">
+      <span class="alert-icon">⚠</span>
+      <div>利益 ＝ 売上（キャッシュバック＋端末売却額）－ 経費（回線維持費）。<strong>維持費の計算を誤ると赤字になる</strong>ため、契約前に必ず試算すること。</div>
+    </div>
+  </div>
+
+  <!-- 03 準備物 -->
+  <div class="section" id="s03">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <div>
+        <div class="section-title">始める前の準備物</div>
+        <div class="section-desc">契約当日に必要な3つの必須アイテム</div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="check-item">
+        <span class="check-icon">🪪</span>
+        <div>
+          <strong>本人確認書類</strong>
+          運転免許証またはマイナンバーカードが基本。健康保険証のみの場合は補助書類が必要になるケースあり。
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">💳</span>
+        <div>
+          <strong>決済手段</strong>
+          クレジットカードまたはキャッシュカード。法人名義で契約する場合は法人口座の通帳が必要になることがある。
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">📶</span>
+        <div>
+          <strong>乗り換え元SIM（玉）</strong>
+          MNP乗り換えに使う転出元の回線のこと。業界用語で「玉（たま）」と呼ぶ。事前に格安SIMで作成しておく必要がある。複数回線乗り換える場合はその回線数分を用意する。
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-info" style="margin-top:12px;">
+      <span class="alert-icon">ℹ</span>
+      <div><strong>利用者登録書類について：</strong>1人で複数回線（例：Yモバイル5回線）を契約する場合、自分名義で使用者として登録できるのは2回線まで。3回線目以降は別の利用者登録が必要になる（住民票・戸籍謄本・身分証など）。</div>
+    </div>
+  </div>
+
+  <!-- 04 SIM選びの基準 -->
+  <div class="section" id="s04">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <div>
+        <div class="section-title">乗り換え元SIM（玉）の選び方</div>
+        <div class="section-desc">使えるSIMと使えないSIMがある — 回線の種類に注意</div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>乗り換え先</th>
+            <th>使えない回線（玉NG）</th>
+            <th>推奨回線</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Yモバイル / ソフトバンク</td>
+            <td class="td-red">ソフトバンク系格安SIM<br><small style="color:var(--muted)">（mineo-SB回線、LINEMOなど）</small></td>
+            <td class="td-green">ドコモ系格安SIM</td>
+          </tr>
+          <tr>
+            <td>au / UQ</td>
+            <td class="td-red">au系格安SIM<br><small style="color:var(--muted)">（IIJmio-au回線、J:COMなど）</small></td>
+            <td class="td-green">ドコモ系格安SIM</td>
+          </tr>
+          <tr>
+            <td>ドコモ</td>
+            <td class="td-amber">原則制限なし<br><small style="color:var(--muted)">（ただし案件による）</small></td>
+            <td class="td-green">ドコモ系格安SIM</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-success" style="margin-top:12px;">
+      <span class="alert-icon">✓</span>
+      <div><strong>ドコモ回線の格安SIMが汎用性最高。</strong>ドコモ系SIMはどのキャリアへの乗り換えでもキャンペーン対象になりやすく、制限を受けにくい。また楽天モバイルは一部店舗で使用可能回線数に制限が設けられることがあるため注意。</div>
+    </div>
+
+    <div class="card" style="margin-top:10px;">
+      <div class="card-title"><span class="dot dot-amber"></span>楽天モバイルを玉にする際の注意</div>
+      <div class="card-body">
+        店舗によっては「楽天からの乗り換えは10回線中2回線まで」など上限が設けられているケースがある。乗り換え前に店舗・案件の条件を必ず確認すること。
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 キャリア別ルール -->
+  <div class="section" id="s05">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <div>
+        <div class="section-title">キャリア別 契約ルール一覧</div>
+        <div class="section-desc">1人で何回線契約できるか・何日維持が必要か</div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>キャリア</th>
+            <th>最大回線数</th>
+            <th>1度に契約可能</th>
+            <th>最低維持期間</th>
+            <th>備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:#fff">ドコモ</strong></td>
+            <td class="td-mono">5回線</td>
+            <td class="td-amber">2回線まで</td>
+            <td class="td-mono td-blue">181日〜</td>
+            <td style="font-size:12px; color:var(--muted2)">3回線目以降は181日後に追加可能</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fff">au / UQ</strong></td>
+            <td class="td-mono">5回線<br><small style="color:var(--muted)">（合算）</small></td>
+            <td class="td-green">乗換3＋新規2<br>同時5回線可</td>
+            <td class="td-mono td-blue">181日〜</td>
+            <td style="font-size:12px; color:var(--muted2)">auとUQは同枠でカウント。利用者書類が必要</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fff">Yモバイル</strong></td>
+            <td class="td-mono">5回線</td>
+            <td class="td-green">5回線同時可</td>
+            <td class="td-mono td-blue">181日〜</td>
+            <td style="font-size:12px; color:var(--muted2)">3・4回線目に利用者1名、5回線目にさらに1名必要</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fff">ソフトバンク</strong></td>
+            <td class="td-mono">5回線</td>
+            <td class="td-green">5回線同時可</td>
+            <td class="td-mono td-blue">181日〜</td>
+            <td style="font-size:12px; color:var(--muted2)">YモバイルとSBは別枠。合計10回線保持可能</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fff">家電量販店経由</strong></td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono td-green">91〜92日</td>
+            <td style="font-size:12px; color:var(--muted2)">キャリアショップより維持期間が短いことが多い</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fff">BIGLOBE</strong></td>
+            <td class="td-mono">2回線</td>
+            <td class="td-mono">—</td>
+            <td class="td-amber">不明（案件による）</td>
+            <td style="font-size:12px; color:var(--muted2)">解約後すぐ再契約できるケースも。家電量販店経由が一般的</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-warn" style="margin-top:12px;">
+      <span class="alert-icon">⚠</span>
+      <div><strong>Yモバイル＋ソフトバンクは別枠。</strong>両方合わせて最大10回線保有できる。一方、auとUQは同じ枠でカウントされる（合計5回線まで）点に注意。</div>
+    </div>
+  </div>
+
+  <!-- 06 端末売却 -->
+  <div class="section" id="s06">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <div>
+        <div class="section-title">端末売却 — 4つの注意点</div>
+        <div class="section-desc">買取に出す前に必ず確認すべきチェックリスト</div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="check-item">
+        <span class="check-icon">🔍</span>
+        <div>
+          <strong>① ネットワーク利用制限（IMEI）チェック</strong>
+          端末を売る前に必ずIMEI番号でネットワーク利用制限チェッカーを確認する。<br>
+          <span style="color:var(--green)">◎ 丸</span>：制限なし → 売却可　／　
+          <span style="color:var(--amber)">△ 三角</span>：分割払い中 → 完済まで売却不可　／　
+          <span style="color:var(--red)">✕ バツ</span>：完全制限 → 原則売却不可<br>
+          <small style="color:var(--muted2)">AppleCare等の保険オプションが残っていると三角になる場合があるため、不要なオプションは先に解約しておくこと。</small>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">📄</span>
+        <div>
+          <strong>② 一括払いの証明を保管する</strong>
+          一括払いで購入した場合、領収書・契約書を手元に残しておく。制限チェックの反映が遅れている場合でも、書類を提示すれば買取に応じてもらえるケースがある。
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">🏪</span>
+        <div>
+          <strong>③ 信頼できる買取業者を選ぶ</strong>
+          大手チェーン（ゲオ・ブックオフ等）は安心だが買取価格が低め。中国系専門業者は高値がつく傾向があるが、事前に業者の信頼性を確認すること。街の小規模店は相場より大幅に低い値をつけられるリスクがあるため注意。
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">📵</span>
+        <div>
+          <strong>④ SIMカードを抜いてから売る</strong>
+          端末売却時に契約中のSIMが入ったままになっていないか必ず確認する。SIMを紛失した場合、再発行手数料（3,850円/枚）が発生する。
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-danger" style="margin-top:12px;">
+      <span class="alert-icon">🚫</span>
+      <div><strong>分割払い中の端末は売却不可。</strong>分割払いを選択した場合、全額完済まで買取業者への売却もフリマアプリへの出品も一切できない。端末転売を目的とする場合は必ず<strong>一括払い</strong>で契約すること。</div>
+    </div>
+  </div>
+
+  <!-- 07 契約後の管理 -->
+  <div class="section" id="s07">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <div>
+        <div class="section-title">契約後の管理作業（アフター管理）</div>
+        <div class="section-desc">忘れると赤字になる3つの必須作業</div>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">プラン変更</div>
+          <div class="step-body">
+            契約時は店舗の指定により<strong>高額プランでの契約</strong>を求められることが多い。端末割引やキャッシュバックの条件になっているため。<br>
+            → 店舗の指示に従い、<strong>当月中または翌月以降に安いプランへ変更</strong>する。変更を忘れると高いプラン料金が維持期間中ずっとかかり、利益が大幅に減少する。
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">オプション解約</div>
+          <div class="step-body">
+            契約時に指定オプション（保険・コンテンツサービス等）への加入を求められる場合がある。<strong>不要なオプションは店舗の指示する期間が過ぎたら速やかに解約</strong>する（例：3ヶ月維持後に解約）。放置すると毎月余分な費用がかかり続ける。
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">稼働確認（定期作業）</div>
+          <div class="step-body">
+            SIMを全く使わない状態で放置すると、<strong>キャリアから不審とみなされ強制解約されるリスク</strong>がある。<br><br>
+            <strong>毎月1回、以下の作業を全SIMに実施する：</strong><br>
+            ① SIMをスマホに挿入し、Wi-Fiをオフにする<br>
+            ② モバイル回線で電話を発信（時報117など1分程度）<br>
+            ③ モバイル回線で数百MB程度のデータ通信を行う<br>
+            ④ 通信確認後にSIMを抜いて保管する<br><br>
+            <small style="color:var(--muted)">※ Wi-Fi接続中は通信記録がSIMに残らないため必ずオフにすること</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 維持費計算 -->
+  <div class="section" id="s08">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <div>
+        <div class="section-title">維持費の計算方法</div>
+        <div class="section-desc">利益 ＝ 売上 — 維持費。計算の基本ルールを押さえる</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>初月は日割り請求</div>
+        <div class="card-body">
+          契約した月は<strong>日割り計算</strong>。月末近くに契約するほど初月の料金が少なく済む。<br><br>
+          例：6月29日契約 → 6月分は残り2日分のみ請求
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-red"></span>解約月は満額請求</div>
+        <div class="card-body">
+          解約した月は<strong>1ヶ月分まるごと請求</strong>される（日割り不可）。<br><br>
+          例：1月2日解約でも、1月分の月額が全額かかる
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:10px;">
+      <div class="card-title"><span class="dot dot-blue"></span>維持費計算の流れ（例：Yモバイル5回線・185日維持）</div>
+      <div class="card-body">
+        <strong>① 初月（日割り）</strong>：高いプランで契約 → 残日数分を計算<br>
+        <strong>② 2ヶ月目〜</strong>：安いプランに変更後の月額 × 残りの月数<br>
+        <strong>③ オプション費用</strong>：指定オプションを維持する期間分を加算<br>
+        <strong>④ 光割引・家族割引</strong>：適用される割引があれば差し引く<br><br>
+        <span class="hi">利益 ＝ キャッシュバック額＋端末売却額 — 上記合計維持費</span>
+      </div>
+    </div>
+
+    <div class="alert alert-info" style="margin-top:12px;">
+      <span class="alert-icon">💡</span>
+      <div>プランや割引の組み合わせが多く維持費計算は複雑になりやすい。<strong>契約前に必ず維持費のシミュレーションを行い、確実に利益が残るか確認</strong>してから契約に進むこと。計算ミスが赤字の最大原因になる。</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- まとめ -->
+    <div style="text-align:center; padding: 8px 0 16px;">
+      <div style="font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:#fff; margin-bottom:12px;">MNP 実践フロー まとめ</div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:rgba(61,214,140,0.1); border-color:rgba(61,214,140,0.25); color:var(--green2);">①</div>
+        <div class="step-content">
+          <div class="step-title">事前準備</div>
+          <div class="step-body">本人確認書類・決済手段・乗り換え元SIM（玉）を用意。複数回線の場合は利用者登録用書類も準備。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(61,214,140,0.1); border-color:rgba(61,214,140,0.25); color:var(--green2);">②</div>
+        <div class="step-content">
+          <div class="step-title">案件・店舗を確認して来店・契約</div>
+          <div class="step-body">契約内容（プラン・オプション・端末）を事前に把握した上で来店。当日は書類を提示し、店員の案内に従って手続きを進める。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(61,214,140,0.1); border-color:rgba(61,214,140,0.25); color:var(--green2);">③</div>
+        <div class="step-content">
+          <div class="step-title">端末をIMEI確認して売却</div>
+          <div class="step-body">ネットワーク利用制限チェッカーで「丸」を確認後、信頼できる買取業者に売却。SIMは抜いておくこと。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(61,214,140,0.1); border-color:rgba(61,214,140,0.25); color:var(--green2);">④</div>
+        <div class="step-content">
+          <div class="step-title">アフター管理（維持期間中）</div>
+          <div class="step-body">プラン変更・オプション解約・毎月の稼働確認を実施。維持期間が終わったら解約 → 次の乗り換えへ。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  MNP KNOWLEDGE BASE 2026 — Educational Reference Only
+</footer>
+
+</body>
+</html>
